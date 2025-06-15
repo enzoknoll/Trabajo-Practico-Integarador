@@ -1,5 +1,5 @@
-# Trabajo-Practico-Integarador
-Programación 1: Trabajo Práctico Integarador
+# Trabajo-Practico-Integrador
+Programación 1: Trabajo Práctico Integrador
 
 Integrantes:
 +-------------------------+-----+
