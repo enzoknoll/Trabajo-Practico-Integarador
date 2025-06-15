@@ -5,7 +5,7 @@ Integrantes:
 +-------------------------+-----+
 | Nombre y Apellido       | Rol |
 | Knoll, Enzo José Javier | dev |
-| Saavedra, Lautaro       | dev |
+| Saavedra, Lautaro Alejandro | dev |
 | Quintana, Leonardo Ezequiel  | dev |
 +------------------------------+-----+
 
