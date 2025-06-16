@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+// Estructura para representar un libro
 struct libros {
     char titulo[100];
     char autor[100];
@@ -9,11 +10,13 @@ struct libros {
     char estado[20]; // "Disponible" o "Prestado"
 };
 
+// Estructura para representar un nodo en la lista enlazada
 struct Nodo {
     struct libros libro;
     struct Nodo *siguiente;
 };
 
+// Función para mostrar el menú principal
 void mostrar_menu() {
     printf("\n--- Sistema de Biblioteca ---\n");
     printf("1. Agregar libros\n");
@@ -28,6 +31,7 @@ void mostrar_menu() {
     printf("10. Salir\n");
 }
 
+// Función para agregar un libro a la lista enlazada
 void agregar_libro(struct Nodo **cabeza, struct libros nuevo_libro) {
     struct Nodo *nuevo_nodo = (struct Nodo *)malloc(sizeof(struct Nodo));
     nuevo_nodo->libro = nuevo_libro;
@@ -35,6 +39,7 @@ void agregar_libro(struct Nodo **cabeza, struct libros nuevo_libro) {
     *cabeza = nuevo_nodo;
 }
 
+//Cargar Libro
 struct libros cargar_libro() {
     struct libros nuevo_libro;
     char buffer[100];
@@ -54,6 +59,7 @@ struct libros cargar_libro() {
     return nuevo_libro;
 }
 
+// Función para mostrar todos los libros en la lista enlazada
 void mostrar_libros(struct Nodo *cabeza) {
     struct Nodo *actual = cabeza;
 
@@ -73,9 +79,7 @@ void mostrar_libros(struct Nodo *cabeza) {
 
 int main() {
     struct Nodo *cabeza = NULL;
-    int opcion;
-    int condicion_fin_menu = 1;
-    int condicion_fin_cargar_libro = 1;
+    int opcion, condicion_fin_menu = 1, condicion_fin_cargar_libro = 1; 
     char titulo[100], autor[100], estado[20];
 
    while(condicion_fin_menu == 1) {
@@ -87,6 +91,7 @@ int main() {
         getchar();  // Limpiar el buffer
         switch(opcion) {
             case 1:
+                // Cargar libros
                 while(condicion_fin_cargar_libro == 1){
                     struct libros nuevo_libro = cargar_libro();
                     agregar_libro(&cabeza, nuevo_libro);
