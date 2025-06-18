@@ -365,26 +365,40 @@ int main() {
                     printf("Seleccione una opción: ");
                     int opcion_prestados;
                     scanf("%d", &opcion_prestados);
-                    if (opcion_prestados == 1) {
-                        mostrar_lista_prestados(cabeza);
-                    } else if (opcion_prestados == 2) {
-                        int condicion_fin_modificar = 1;
-                        while(condicion_fin_modificar == 1) {
-                            printf("Ingrese el código del libro prestado a modificar: ");
-                            scanf("%d", &codigo_modificar);
-                            getchar();  // Limpiar el buffer
-                            printf("Ingrese el nuevo estado del libro (Disponible/Prestado): ");
-                            fgets(estado, sizeof(estado), stdin);
-                            estado[strcspn(estado, "\n")] = 0; // Eliminar el salto de línea al final
-                            modificar_estado_libro(cabeza, codigo_modificar, estado);
+                    getchar();  // Limpiar el buffer
+                    switch (opcion_prestados) {
+                        case 1:
+                            mostrar_lista_prestados(cabeza);
+                            break;
 
-                            printf("¿Desea modificar el estado de otro libro prestado? (1: Sí, 0: No): ");
-                            scanf("%d", &condicion_fin_modificar);
-                            getchar();  // Limpiar el buffer
+                        case 2: {
+                            int condicion_fin_modificar = 1;
+                            while (condicion_fin_modificar == 1) {
+                                printf("Ingrese el código del libro prestado a modificar: ");
+                                scanf("%d", &codigo_modificar);
+                                getchar();  // Limpiar el buffer
+
+                                printf("Ingrese el nuevo estado del libro (Disponible/Prestado): ");
+                                fgets(estado, sizeof(estado), stdin);
+                                estado[strcspn(estado, "\n")] = 0; // Eliminar el salto de línea
+
+                                modificar_estado_libro(cabeza, codigo_modificar, estado);
+
+                                printf("¿Desea modificar el estado de otro libro prestado? (1: Sí, 0: No): ");
+                                scanf("%d", &condicion_fin_modificar);
+                                getchar();  // Limpiar el buffer
+                            }
+                            break;
                         }
-                    }else if(opcion_prestados == 3) {
-                        printf("Volviendo al menú principal...\n");
-                        condicion_fin_lista_prestados = 0;
+
+                        case 3:
+                            printf("Volviendo al menú principal...\n");
+                            condicion_fin_lista_prestados = 0;
+                            break;
+
+                        default:
+                            printf("Opción no válida.\n");
+                            break;
                     }
                 }
                 break;
