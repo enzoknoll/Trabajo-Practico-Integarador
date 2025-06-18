@@ -88,13 +88,17 @@ struct libros cargar_libro() {
 
 // Función para mostrar todos los libros en la lista enlazada
 void mostrar_libros(struct Nodo *cabeza) {
+    setlocale(LC_ALL, "");  // Para soportar UTF-8 en consola
     struct Nodo *actual = cabeza;
-
+    char titulo_truncado[64];
+    char autor_truncado[64];
     printf("\n+--------------------------------+--------------------------------+------------+------------+\n");
-    printf("| %-30s | %-30s | %-10s | %-10s |\n", "Título", "Autor", "Código", "Estado");
+    printf("| %-30s | %-30s | %-10s | %-10s |\n", "Titulo", "Autor", "Codigo", "Estado");
     printf("+--------------------------------+--------------------------------+------------+------------+\n");
 
     while (actual != NULL) {
+        truncar_con_ellipsis(actual->libro.titulo, titulo_truncado, 30);
+        truncar_con_ellipsis(actual->libro.autor, autor_truncado, 30);
         printf("| %-30s | %-30s | %-10d | %-10s |\n",
                actual->libro.titulo, actual->libro.autor,
                actual->libro.codigo, actual->libro.estado);
