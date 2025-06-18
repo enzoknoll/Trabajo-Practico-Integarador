@@ -152,6 +152,36 @@ void buscar_autor_libro(struct Nodo *cabeza, const char *autor) {
     printf("Libro con autor '%s' no encontrado.\n", autor);
 }
 
+void mostrar_lista_prestados(struct Nodo *cabeza) {
+    struct Nodo *actual = cabeza;
+    int encontrado = 0;
+    printf("\n+--------------------------------+--------------------------------+------------+------------+\n");
+    printf("| %-30s | %-30s | %-10s | %-10s |\n", "Título", "Autor", "Código", "Estado");
+    printf("+--------------------------------+--------------------------------+------------+------------+\n");
+
+    while (actual != NULL) {
+        if (strcmp(actual->libro.estado, "Prestado") == 0 || strcmp(actual->libro.estado, "prestado") == 0) {
+            printf("| %-30s | %-30s | %-10d | %-10s |\n",
+                   actual->libro.titulo, actual->libro.autor,
+                   actual->libro.codigo, actual->libro.estado);
+            encontrado = 1;
+        }
+        actual = actual->siguiente;
+    }
+    if (!encontrado) {
+        printf("| No hay libros prestados.                                                                 |\n");
+    }
+    printf("+--------------------------------+--------------------------------+------------+------------+\n");
+}
+
+//agregar lista de prestamo
+void agregar_a_prestamos(struct Nodo **prestamos, struct libros libro) {
+    struct Nodo *nuevo = (struct Nodo *)malloc(sizeof(struct Nodo));
+    nuevo->libro = libro;
+    nuevo->siguiente = *prestamos;
+    *prestamos = nuevo;
+}
+
 int main() {
     struct Nodo *cabeza = NULL;
     int opcion, condicion_fin_menu = 1, condicion_fin_cargar_libro = 1; 
