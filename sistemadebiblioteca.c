@@ -40,26 +40,6 @@ void agregar_libro(struct Nodo **cabeza, struct libros nuevo_libro) {
     *cabeza = nuevo_nodo;
 }
 
-//Cargar Libro
-struct libros cargar_libro() {
-    struct libros nuevo_libro;
-    char buffer[100];
-    //Cargar un nuevo libro
-    printf("Ingrese el título del libro: ");
-    fgets(nuevo_libro.titulo, sizeof(nuevo_libro.titulo), stdin);
-    nuevo_libro.titulo[strcspn(nuevo_libro.titulo, "\n")] = 0;
-    printf("Ingrese el autor del libro: ");
-    fgets(nuevo_libro.autor, sizeof(nuevo_libro.autor), stdin);
-    nuevo_libro.autor[strcspn(nuevo_libro.autor, "\n")] = 0;
-    printf("Ingrese el código del libro: ");
-    fgets(buffer, sizeof(buffer), stdin);
-    nuevo_libro.codigo = atoi(buffer);
-    printf("Ingrese el estado del libro (Disponible/Prestado): ");
-    fgets(nuevo_libro.estado, sizeof(nuevo_libro.estado), stdin);
-    nuevo_libro.estado[strcspn(nuevo_libro.estado, "\n")] = 0;
-    return nuevo_libro;
-}
-
 // Función para truncar texto con "..." si es necesario
 void truncar_con_ellipsis(const char *original, char *destino, size_t max_visible_chars) {
     size_t visible = 0;
@@ -111,7 +91,6 @@ void mostrar_libros(struct Nodo *cabeza) {
     printf("+--------------------------------+--------------------------------+------------+------------+\n");
 }
 
-// Función para modificar el estado de un libro
 void modificar_estado_libro(struct Nodo *cabeza, int codigo, const char *nuevo_estado) {
     struct Nodo *actual = cabeza;
     while (actual != NULL) {
@@ -126,7 +105,164 @@ void modificar_estado_libro(struct Nodo *cabeza, int codigo, const char *nuevo_e
     printf("Libro con código %d no encontrado.\n", codigo);
 }
 
-// Función para cargar la lista de libros desde un archivo
+//Buscar título de un libro
+void buscar_titulo_libro(struct Nodo *cabeza, const char *titulo) {
+    struct Nodo *actual = cabeza;
+    while (actual != NULL) {
+        if (strcmp(actual->libro.titulo, titulo) == 0) {
+            printf("Libro encontrado: Título: %s, Autor: %s, Código: %d, Estado: %s\n",
+                   actual->libro.titulo, actual->libro.autor,
+                   actual->libro.codigo, actual->libro.estado);
+            return;
+        }
+        actual = actual->siguiente;
+    }
+    printf("Libro con título '%s' no encontrado.\n", titulo);
+}
+
+//Buscar libro por autor
+void buscar_autor_libro(struct Nodo *cabeza, const char *autor) {
+    struct Nodo *actual = cabeza;
+    int contador = 0;
+
+    while (actual != NULL) {
+        if (strcmp(actual->libro.autor, autor) == 0) {
+            printf("Libro encontrado: Título: %s, Autor: %s, Código: %d, Estado: %s\n",
+                   actual->libro.titulo, actual->libro.autor,
+                   actual->libro.codigo, actual->libro.estado);
+            contador++;
+        }
+        actual = actual->siguiente;
+    }
+
+    if (contador == 0) {
+        printf("No se encontraron libros del autor '%s'.\n", autor);
+    } else {
+        printf("Se encontraron %d libro%s del autor '%s'.\n",
+               contador, (contador == 1 ? "" : "s"), autor);
+    }
+}
+
+void mostrar_lista_prestados(struct Nodo *cabeza) {
+    struct Nodo *actual = cabeza;
+    int encontrado = 0;
+
+    printf("\n+--------------------------------+--------------------------------+------------+------------+\n");
+    printf("| %-30s | %-30s | %-10s | %-10s |\n", "Título", "Autor", "Código", "Estado");
+    printf("+--------------------------------+--------------------------------+------------+------------+\n");
+
+    while (actual != NULL) {
+        if (strcmp(actual->libro.estado, "Prestado") == 0 || strcmp(actual->libro.estado, "prestado") == 0) {
+            printf("| %-30s | %-30s | %-10d | %-10s |\n",
+                   actual->libro.titulo, actual->libro.autor,
+                   actual->libro.codigo, actual->libro.estado);
+            encontrado = 1;
+        }
+        actual = actual->siguiente;
+    }
+
+    if (!encontrado) {
+        printf("| No hay libros prestados.                                                                 |\n");
+    }
+
+    printf("+--------------------------------+--------------------------------+------------+------------+\n");
+}
+
+//agregar lista de prestamo
+void agregar_a_prestamos(struct Nodo **prestamos, struct libros libro) {
+    struct Nodo *nuevo = (struct Nodo *)malloc(sizeof(struct Nodo));
+    nuevo->libro = libro;
+    nuevo->siguiente = *prestamos;
+    *prestamos = nuevo;
+}
+
+void mostrar_lista_autor(struct Nodo *cabeza) {
+    struct Nodo *actual = cabeza;
+    int encontrado = 0;
+    char autor_buscar[100];
+    printf("Ingrese el autor del libro a buscar: ");
+    fgets(autor_buscar, sizeof(autor_buscar), stdin);
+    autor_buscar[strcspn(autor_buscar, "\n")] = 0; // Eliminar el salto de línea al final
+    printf("\n+--------------------------------+--------------------------------+------------+------------+\n");
+    printf("| %-30s | %-30s | %-10s | %-10s |\n", "Título", "Autor", "Código", "Estado");
+    printf("+--------------------------------+--------------------------------+------------+------------+\n");
+
+    while (actual != NULL) {
+        if (strcmp(actual->libro.autor, autor_buscar) == 0) {
+            printf("| %-30s | %-30s | %-10d | %-10s |\n",
+                   actual->libro.titulo, actual->libro.autor,
+                   actual->libro.codigo, actual->libro.estado);
+            encontrado = 1;
+        }
+        actual = actual->siguiente;
+    }
+
+    if (!encontrado) {
+        printf("| No hay libros de autor '%s'.                                                             |\n", autor_buscar);
+    }
+
+    printf("+--------------------------------+--------------------------------+------------+------------+\n");
+}
+
+//Listar libros alfabéticamente
+void listar_alfabeticamente(struct Nodo *cabeza) {
+    struct Nodo *actual, *siguiente;
+    struct libros temp;
+
+    // Bubble sort para ordenar los libros alfabéticamente por título
+    for (actual = cabeza; actual != NULL; actual = actual->siguiente) {
+        for (siguiente = actual->siguiente; siguiente != NULL; siguiente = siguiente->siguiente) {
+            if (strcmp(actual->libro.titulo, siguiente->libro.titulo) > 0) {
+                temp = actual->libro;
+                actual->libro = siguiente->libro;
+                siguiente->libro = temp;
+            }
+        }
+    }
+
+    mostrar_libros(cabeza);
+}
+
+//Cargar Libro
+struct libros cargar_libro() {
+    struct libros nuevo_libro;
+    char buffer[100];
+    //Cargar un nuevo libro
+    printf("Ingrese el título del libro: ");
+    fgets(nuevo_libro.titulo, sizeof(nuevo_libro.titulo), stdin);
+    nuevo_libro.titulo[strcspn(nuevo_libro.titulo, "\n")] = 0;
+    printf("Ingrese el autor del libro: ");
+    fgets(nuevo_libro.autor, sizeof(nuevo_libro.autor), stdin);
+    nuevo_libro.autor[strcspn(nuevo_libro.autor, "\n")] = 0;
+    printf("Ingrese el código del libro: ");
+    fgets(buffer, sizeof(buffer), stdin);
+    nuevo_libro.codigo = atoi(buffer);
+    printf("Ingrese el estado del libro (Disponible/Prestado): ");
+    fgets(nuevo_libro.estado, sizeof(nuevo_libro.estado), stdin);
+    nuevo_libro.estado[strcspn(nuevo_libro.estado, "\n")] = 0;
+    return nuevo_libro;
+}
+
+void guardar_en_archivo(struct Nodo *cabeza, const char *nombre_archivo) {
+    FILE *archivo = fopen(nombre_archivo, "w");
+    if (archivo == NULL) {
+        perror("Error al abrir el archivo");
+        return;
+    }
+
+    struct Nodo *actual = cabeza;
+    while (actual != NULL) {
+        fprintf(archivo, "%s, %s, %d, %s\n",
+                actual->libro.titulo,
+                actual->libro.autor,
+                actual->libro.codigo,
+                actual->libro.estado);
+        actual = actual->siguiente;
+    }
+
+    fclose(archivo);
+}
+
 void cargar_desde_archivo(struct Nodo **cabeza, const char *nombre_archivo) {
     FILE *archivo = fopen(nombre_archivo, "r");
     if (archivo == NULL) {
@@ -153,12 +289,11 @@ void cargar_desde_archivo(struct Nodo **cabeza, const char *nombre_archivo) {
 
 int main() {
     struct Nodo *cabeza = NULL;
-
+    
     FILE *archivo;
     struct libros libro;
     char linea[300];
 
-    //Opcional
     archivo = fopen("libros.txt", "r");
     if (archivo == NULL) {
         perror("Error al abrir el archivo");
@@ -169,10 +304,10 @@ int main() {
 
     cargar_desde_archivo(&cabeza, "libros.txt");
 
-    int opcion, codigo_modificar, condicion_fin_menu = 1, condicion_fin_cargar_libro = 1; 
     char titulo[100], autor[100], estado[20];
+    int opcion, codigo, codigo_modificar, condicion_fin_menu = 1, condicion_fin_cargar_libro = 1;  
 
-   while(condicion_fin_menu == 1) {
+    while(condicion_fin_menu == 1) {
         int condicion_fin_lista_prestados = 1;
         //Menú principal
         mostrar_menu();
@@ -203,32 +338,68 @@ int main() {
                 modificar_estado_libro(cabeza, codigo_modificar, estado);
                 break;
             case 3:
-                
+                printf("Ingrese el título del libro a buscar: ");
+                fgets(titulo, sizeof(titulo), stdin);
+                titulo[strcspn(titulo, "\n")] = 0; // Eliminar el salto de línea al final
+                buscar_titulo_libro(cabeza, titulo);
                 break;
             case 4:
-                
+                printf("Ingrese el autor del libro a buscar: ");
+                fgets(autor, sizeof(autor), stdin);
+                autor[strcspn(autor, "\n")] = 0; // Eliminar el salto de línea al final
+                buscar_autor_libro(cabeza, autor);
                 break;
             case 5:
-                
+                listar_alfabeticamente(cabeza);
                 break;
                 
             case 6:
-                
+                mostrar_lista_autor(cabeza);
                 break;
             case 7:
-                
+                // Libros prestados activos
+                while(condicion_fin_lista_prestados == 1) {
+                    printf("1. Mostrar libros prestados activos\n");
+                    printf("2. Modificar estado de un libro prestado\n");
+                    printf("3. Volver al menú principal\n");
+                    printf("Seleccione una opción: ");
+                    int opcion_prestados;
+                    scanf("%d", &opcion_prestados);
+                    if (opcion_prestados == 1) {
+                        mostrar_lista_prestados(cabeza);
+                    } else if (opcion_prestados == 2) {
+                        int condicion_fin_modificar = 1;
+                        while(condicion_fin_modificar == 1) {
+                            printf("Ingrese el código del libro prestado a modificar: ");
+                            scanf("%d", &codigo_modificar);
+                            getchar();  // Limpiar el buffer
+                            printf("Ingrese el nuevo estado del libro (Disponible/Prestado): ");
+                            fgets(estado, sizeof(estado), stdin);
+                            estado[strcspn(estado, "\n")] = 0; // Eliminar el salto de línea al final
+                            modificar_estado_libro(cabeza, codigo_modificar, estado);
+
+                            printf("¿Desea modificar el estado de otro libro prestado? (1: Sí, 0: No): ");
+                            scanf("%d", &condicion_fin_modificar);
+                            getchar();  // Limpiar el buffer
+                        }
+                    }else if(opcion_prestados == 3) {
+                        printf("Volviendo al menú principal...\n");
+                        condicion_fin_lista_prestados = 0;
+                    }
+                }
                 break;
             case 8:
                 mostrar_libros(cabeza);
                 break;
             case 9:
-                
+                guardar_en_archivo(cabeza, "datos_libros.txt");
+                printf("Lista de libros guardada en 'datos_libros.txt'.\n");
                 break;
             case 10:
-                
+                printf("Saliendo del programa...\n");
                 return 0;
             default:
-                
+                printf("Opción inválida. Saliendo del programa...\n");
                 return 1;
         }
         if(condicion_fin_lista_prestados == 0) {
@@ -236,5 +407,12 @@ int main() {
         }
     }
 
+    // Liberar memoria
+    struct Nodo *actual = cabeza;
+    while (actual != NULL) {
+        struct Nodo *siguiente = actual->siguiente;
+        free(actual);
+        actual = siguiente;
+    }
     return 0;
 }
