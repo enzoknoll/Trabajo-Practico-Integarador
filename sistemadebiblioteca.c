@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <locale.h>
 
 // Estructura para representar un libro
 struct libros {
@@ -37,6 +38,32 @@ void agregar_libro(struct Nodo **cabeza, struct libros nuevo_libro) {
     nuevo_nodo->libro = nuevo_libro;
     nuevo_nodo->siguiente = *cabeza;
     *cabeza = nuevo_nodo;
+}
+
+// Función para truncar texto con "..." si es necesario
+void truncar_con_ellipsis(const char *original, char *destino, size_t max_visible_chars) {
+    size_t visible = 0;
+    const char *p = original;
+    char *d = destino;
+
+    while (*p && visible < max_visible_chars) {
+        if ((*p & 0xC0) != 0x80) {  // No es byte de continuación UTF-8
+            visible++;
+        }
+        *d++ = *p++;
+    }
+
+    if (*p) {
+        // Si se truncó, agregamos "..."
+        if (max_visible_chars >= 4) {
+            d -= 4;  // Retrocede para reemplazar los últimos 4 con "..."
+            strcpy(d, "...");
+        } else {
+            *d = '\0';
+        }
+    } else {
+        *d = '\0';  // Finaliza si no fue truncado
+    }
 }
 
 //Cargar Libro
