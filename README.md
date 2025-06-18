@@ -1,76 +1,94 @@
-# Trabajo-Practico-Integrador
-Programación 1: Trabajo Práctico Integrador
+# Trabajo Práctico Integrador
 
-Integrantes:
-+------------------------------+-----+
-| Nombre y Apellido            | Rol |
-| Knoll, Enzo José Javier      | dev |
-| Saavedra, Lautaro Alejandro  | dev |
-| Quintana, Leonardo Ezequiel  | dev |
-+------------------------------+-----+
+**Materia:** Programación 1  
+**Trabajo:** Trabajo Práctico Integrador
 
-==================================================
-INSTRUCCIONES PARA COMPILAR Y EJECUTAR EL PROGRAMA EN C
-==================================================
+## Integrantes
 
-==================================================
-REQUISITOS PREVIOS
-==================================================
+| Nombre y Apellido            | Rol  |
+|-----------------------------|------|
+| Knoll, Enzo José Javier     | Dev  |
+| Saavedra, Lautaro Alejandro | Dev  |
+| Quintana, Leonardo Ezequiel | Dev  |
 
-PARA WINDOWS:
-1. Instalar TDM-GCC (https://jmeubank.github.io/tdm-gcc/) o MinGW (http://www.mingw.org/).
-   - Durante la instalación, asegurate de agregar el compilador al PATH.
+---
+
+## Instrucciones para Compilar y Ejecutar el Programa en C
+
+### Requisitos Previos
+
+#### Para Windows:
+
+1. Instalar [TDM-GCC](https://jmeubank.github.io/tdm-gcc/) o [MinGW](https://www.mingw-w64.org/downloads/#mingw-w64-builds).
+   - Durante la instalación, asegurate de agregar el compilador al `PATH`.
 2. Alternativamente, podés usar Code::Blocks (incluye un compilador) o Dev-C++.
 
-PARA LINUX (Ubuntu, Debian, Fedora, etc.):
-1. Abrí la terminal y escribí:
-   Ubuntu/Debian:
-   sudo apt update && sudo apt install build-essential -y
+#### Para Linux (Ubuntu, Debian, Fedora, etc.)
 
-   Fedora:
-   sudo dnf install gcc
+1. Abrí la terminal y escribí el siguiente comando según tu sistema:
 
-==================================================
-PASOS PARA COMPILAR Y EJECUTAR
-==================================================
+**Ubuntu/Debian:**
+```bash
+sudo apt update && sudo apt install build-essential -y
+```
+
+**Fedora:**
+```bash
+sudo dnf install gcc
+```
+
+---
+
+## Pasos para Compilar y Ejecutar
 
 1. Crear un archivo de código fuente:
    - Abrí un editor de texto.
    - Pegá todo el código fuente del programa.
-   - Guardalo como: biblioteca.c
+   - Guardalo como: `biblioteca.c`
 
 2. Abrir la terminal o consola:
-   En Windows:
-   - Presioná Win + R, escribí cmd y presioná Enter.
-   - Navegá con: cd Desktop (o la carpeta donde esté el archivo).
 
-   En Linux:
-   - Abrí la terminal.
-   - Navegá con: cd ~/Escritorio (o la carpeta correspondiente).
+**En Windows:**
+```bash
+cd ruta\a\la\carpeta\donde\esta\biblioteca.c
+```
+
+**En Linux:**
+```bash
+cd ~/ruta/a/la/carpeta
+```
 
 3. Compilar el programa:
-   En Windows (MinGW o TDM-GCC):
-   gcc biblioteca.c -o biblioteca.exe
 
-   En Linux:
-   gcc biblioteca.c -o biblioteca
+**Windows (TDM-GCC o MinGW):**
+```bash
+gcc biblioteca.c -o biblioteca.exe
+```
+
+**Linux:**
+```bash
+gcc biblioteca.c -o biblioteca
+```
 
 4. Ejecutar el programa:
-   En Windows:
-   biblioteca.exe
 
-   En Linux:
-   ./biblioteca
+**Windows:**
+```bash
+biblioteca.exe
+```
 
-==================================================
-IMPORTANTE
-==================================================
+**Linux:**
+```bash
+./biblioteca
+```
 
-- El programa usa un archivo llamado libros.txt para cargar datos.
+---
+
+## ⚠️ Importante
+
+- El programa utiliza un archivo llamado `libros.txt` para cargar datos.  
   Asegurate de que esté en la misma carpeta que el ejecutable.
 
-- Al usar la opción 9 del menú, el programa guarda en datos_libros.txt.
+- La opción **9** del menú guarda los datos en `datos_libros.txt`.
 
-- Para cerrar el programa, elegí la opción 10 o presioná Ctrl + C.
-
-==================================================
+- Para salir del programa, elegí la opción **10** o presioná `Ctrl + C`.
