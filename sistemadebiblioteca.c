@@ -108,6 +108,50 @@ void mostrar_libros(struct Nodo *cabeza) {
     printf("+--------------------------------+--------------------------------+------------+------------+\n");
 }
 
+void modificar_estado_libro(struct Nodo *cabeza, int codigo, const char *nuevo_estado) {
+    struct Nodo *actual = cabeza;
+    while (actual != NULL) {
+        if (actual->libro.codigo == codigo) {
+            strncpy(actual->libro.estado, nuevo_estado, sizeof(actual->libro.estado) - 1);
+            actual->libro.estado[sizeof(actual->libro.estado) - 1] = '\0'; // Asegurar terminación
+            printf("Estado del libro con código %d modificado a '%s'.\n", codigo, nuevo_estado);
+            return;
+        }
+        actual = actual->siguiente;
+    }
+    printf("Libro con código %d no encontrado.\n", codigo);
+}
+
+//Buscar título de un libro
+void buscar_titulo_libro(struct Nodo *cabeza, const char *titulo) {
+    struct Nodo *actual = cabeza;
+    while (actual != NULL) {
+        if (strcmp(actual->libro.titulo, titulo) == 0) {
+            printf("Libro encontrado: Título: %s, Autor: %s, Código: %d, Estado: %s\n",
+                   actual->libro.titulo, actual->libro.autor,
+                   actual->libro.codigo, actual->libro.estado);
+            return;
+        }
+        actual = actual->siguiente;
+    }
+    printf("Libro con título '%s' no encontrado.\n", titulo);
+}
+
+//Buscar autor de un libro
+void buscar_autor_libro(struct Nodo *cabeza, const char *autor) {
+    struct Nodo *actual = cabeza;
+    while (actual != NULL) {
+        if (strcmp(actual->libro.autor, autor) == 0) {
+            printf("Libro encontrado: Título: %s, Autor: %s, Código: %d, Estado: %s\n",
+                   actual->libro.titulo, actual->libro.autor,
+                   actual->libro.codigo, actual->libro.estado);
+            return;
+        }
+        actual = actual->siguiente;
+    }
+    printf("Libro con autor '%s' no encontrado.\n", autor);
+}
+
 int main() {
     struct Nodo *cabeza = NULL;
     int opcion, condicion_fin_menu = 1, condicion_fin_cargar_libro = 1; 
