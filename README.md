@@ -9,7 +9,9 @@ Integrantes:
 | Quintana, Leonardo Ezequiel  | dev |
 +------------------------------+-----+
 
-INSTRUCCIONES PARA COMPILAR Y EJECUTAR EL PROGRAMA DE SISTEMA DE BIBLIOTECA EN C
+==================================================
+INSTRUCCIONES PARA COMPILAR Y EJECUTAR EL PROGRAMA EN C
+==================================================
 
 ==================================================
 REQUISITOS PREVIOS
