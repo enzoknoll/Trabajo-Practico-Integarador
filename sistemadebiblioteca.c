@@ -182,6 +182,73 @@ void agregar_a_prestamos(struct Nodo **prestamos, struct libros libro) {
     *prestamos = nuevo;
 }
 
+//eliminar prestamo
+void eliminar_de_prestamos(struct Nodo **prestamos, int codigo) {
+    struct Nodo *actual = *prestamos, *anterior = NULL;
+
+    while (actual != NULL) {
+        if (actual->libro.codigo == codigo) {
+            if (anterior == NULL) {
+                *prestamos = actual->siguiente;
+            } else {
+                anterior->siguiente = actual->siguiente;
+            }
+            free(actual);
+            return;
+        }
+        anterior = actual;
+        actual = actual->siguiente;
+    }
+}
+
+void mostrar_lista_autor(struct Nodo *cabeza) {
+    struct Nodo *actual = cabeza;
+    int encontrado = 0;
+    char autor_buscar[100];
+    printf("Ingrese el autor del libro a buscar: ");
+    fgets(autor_buscar, sizeof(autor_buscar), stdin);
+    autor_buscar[strcspn(autor_buscar, "\n")] = 0; // Eliminar el salto de línea al final
+    printf("\n+--------------------------------+--------------------------------+------------+------------+\n");
+    printf("| %-30s | %-30s | %-10s | %-10s |\n", "Título", "Autor", "Código", "Estado");
+    printf("+--------------------------------+--------------------------------+------------+------------+\n");
+
+    while (actual != NULL) {
+        if (strcmp(actual->libro.autor, autor_buscar) == 0) {
+            printf("| %-30s | %-30s | %-10d | %-10s |\n",
+                   actual->libro.titulo, actual->libro.autor,
+                   actual->libro.codigo, actual->libro.estado);
+            encontrado = 1;
+        }
+        actual = actual->siguiente;
+    }
+    if (!encontrado) {
+        printf("| No hay libros de autor '%s'.                                                             |\n", autor_buscar);
+    }
+
+    printf("+--------------------------------+--------------------------------+------------+------------+\n");
+}
+
+//Listar libros alfabéticamente
+void listar_alfabeticamente(struct Nodo *cabeza) {
+    struct Nodo *actual, *siguiente;
+    struct libros temp;
+
+    // Bubble sort para ordenar los libros alfabéticamente por título
+    for (actual = cabeza; actual != NULL; actual = actual->siguiente) {
+        for (siguiente = actual->siguiente; siguiente != NULL; siguiente = siguiente->siguiente) {
+            if (strcmp(actual->libro.titulo, siguiente->libro.titulo) > 0) {
+                temp = actual->libro;
+                actual->libro = siguiente->libro;
+                siguiente->libro = temp;
+            }
+        }
+    }
+
+    mostrar_libros(cabeza);
+}
+
+
+
 int main() {
     struct Nodo *cabeza = NULL;
     int opcion, condicion_fin_menu = 1, condicion_fin_cargar_libro = 1; 
