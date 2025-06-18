@@ -1,0 +1,10 @@
+Cien años de soledad, Gabriel García Márquez, 3, Disponible
+1984, George Orwell, 4, Prestado
+El Principito, Antoine de Saint-Exupéry, 5, Disponible
+Rayuela, Julio Cortázar, 6, Prestado
+Don Quijote de la Mancha, Miguel de Cervantes, 7, Disponible
+Ficciones, Jorge Luis Borges, 8, Disponible
+Crónica de una muerte anunciada, Gabriel García Márquez, 9, Prestado
+La sombra del viento, Carlos Ruiz Zafón, 10, Disponible
+Pedro Páramo, Juan Rulfo, 11, Disponible
+La tregua, Mario Benedetti, 12, Prestado
