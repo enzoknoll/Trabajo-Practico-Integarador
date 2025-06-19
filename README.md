@@ -44,42 +44,42 @@ sudo dnf install gcc
 1. Crear un archivo de código fuente:
    - Abrí un editor de texto.
    - Pegá todo el código fuente del programa.
-   - Guardalo como: `biblioteca.c`
+   - Guardalo como: `sistemadebiblioteca.c`
 
 2. Abrir la terminal o consola:
 
 **En Windows:**
 ```bash
-cd ruta\a\la\carpeta\donde\esta\biblioteca.c
+cd \ruta de la carpeta\sistemadebiblioteca.c
 ```
 
 **En Linux:**
 ```bash
-cd ~/ruta/a/la/carpeta
+cd ~/ruta de la carpeta
 ```
 
 3. Compilar el programa:
 
 **Windows (TDM-GCC o MinGW):**
 ```bash
-gcc biblioteca.c -o biblioteca.exe
+gcc sistemadebiblioteca.c -o sistemadebiblioteca.exe
 ```
 
 **Linux:**
 ```bash
-gcc biblioteca.c -o biblioteca
+gcc sistemadebiblioteca.c -o sistemadebiblioteca
 ```
 
 4. Ejecutar el programa:
 
 **Windows:**
 ```bash
-biblioteca.exe
+sistemadebiblioteca.exe
 ```
 
 **Linux:**
 ```bash
-./biblioteca
+./sistemadebiblioteca
 ```
 
 ---
